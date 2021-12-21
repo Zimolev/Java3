@@ -9,6 +9,13 @@ public class LogsFiles {
     private List filelogs;
     private File file;
 
+    public File getFile() {
+        return file;
+    }
+
+    public List getFilelogs() {
+        return filelogs;
+    }
 
     public LogsFiles() {
     }
@@ -19,19 +26,26 @@ public class LogsFiles {
 
         try {
             FileOutputStream bos = new FileOutputStream(file, true);
-            bos.write (str.getBytes());
-            bos.write("\n".getBytes());
+            if (str.getBytes() != null) {
+            bos.write(str.getBytes());
+            bos.write("\n".getBytes());}
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void loadFile(File file){
+    public void loadFile(File file) {
         filelogs = new ArrayList();
-
-
+        try (BufferedReader fis = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = fis.readLine()) != null) {
+                filelogs.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
-
 }
+
